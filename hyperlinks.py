@@ -5,21 +5,37 @@ import json
 
 
 total = 0
-while total < 1000:
-      page = urllib2.urlopen("http://rivermeadow.com")
-      soup = BeautifulSoup(page)
-      print len(soup.findAll('a',{'href': True}) )
-      total += len(soup.findAll('a',{'href': True}) )
-
-      for incident in soup.findAll('a',{'href': True}):
-          
-          print incident['href']
-          if 'http' in str(incident['href']):
-              url_string = str(incident['href'])
-              page = urllib2.urlopen(url_string)
-              soup = BeautifulSoup(page)
-              print len(soup.findAll('a',{'href': True}) )
-              total += len(soup.findAll('a',{'href': True}) )
+list_url=[]
 
 
-print total    
+def obtain_json():
+
+    count=0    
+
+    populate_list("http://rivermeadow.com")
+
+    while len(list_url) < 1000:
+      populate_list(list_url[count])
+      count+=1
+                     
+
+def populate_list(url):
+    
+    print url
+    global list_url
+    
+
+    page = urllib2.urlopen(url)
+    soup = BeautifulSoup(page)
+
+    for incident in soup.findAll('a',{'href': True}):
+        if 'http' in str(incident['href']):
+            list_url.append(str(incident['href']))
+
+def main():
+    global list_url
+    obtain_json()
+    print list_url
+    
+if __name__ == '__main__':
+  main() 
