@@ -40,7 +40,7 @@ def populate_list(url):
            if 'http' in str(incident['href']).encode('ascii','ignore'):
               list_url.append(str(incident['href']))
         except UnicodeEncodeError:
-               print 'Test
+               print ''
  
       with open(dump_file, "w") as file:
         json.dump( {'url':url,'outgoing':list_url}, file, indent=4)
